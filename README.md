@@ -40,6 +40,8 @@ A lightweight HTTP server running on an ESP32 using MicroPython, serving a hacke
    PASSWORD = "YOUR_PASSWORD"
 
 --------------------------------------------------------------------------------------------------------
+## Project Structure
+
 
 /project-root
 │
