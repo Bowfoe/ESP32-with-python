@@ -6,63 +6,59 @@ A lightweight HTTP server running on an ESP32 using MicroPython, serving a hacke
 
 ## Features
 
-- Connects ESP32 to Wi-Fi automatically
+- Connects ESP32 to Wi-Fi automatically on boot (`boot.py`)
 - Serves HTML, CSS, images, and other files over HTTP
-- Parses HTTP GET requests and serves appropriate files
-- Supports text and binary file serving with correct headers
+- Parses HTTP GET requests and serves appropriate files (`analyze_headers.py`)
+- Handles sending HTTP responses with correct headers for text and binary files (`response.py`)
 - Hacker-themed UI with green terminal style, glitch animations, and glowing effects
-- Simple and extendable architecture
+- Simple, modular, and extendable architecture
 
 ---
 
 ## Installation & Setup
 
-1. **Flash MicroPython Firmware on ESP32**
+### 1. Flash MicroPython Firmware on ESP32
 
-   Download and flash the latest MicroPython firmware for ESP32 from the [official MicroPython site](https://micropython.org/download/esp32/).
+Download and flash the latest MicroPython firmware for ESP32 from the [official MicroPython website](https://micropython.org/download/esp32/).
 
-2. **Connect ESP32 to Your Computer**
+### 2. Connect ESP32 to Your Computer
 
-   Use a USB cable and a serial tool (e.g., `screen`, PuTTY) or IDE (e.g., Thonny, uPyCraft).
+Use a USB cable and a serial tool (e.g., `screen`, PuTTY) or an IDE (e.g., Thonny, uPyCraft).
 
-3. **Upload Project Files**
+### 3. Upload Project Files
 
-   Use tools like `ampy`, `rshell`, or IDE upload feature to transfer files to the ESP32 filesystem:
+Use tools like `ampy`, `rshell`, `mpremote`, or your IDE's upload feature to transfer files to the ESP32 filesystem:
 
-   - `main.py` (your main script)
-   - All HTML, CSS, JS, image files needed for the website
+- `boot.py` — sets up Wi-Fi connection on boot  
+- `main.py` — main script running the web server and socket listener  
+- `analyze_headers.py` — parses HTTP requests, extracts requested paths and file types  
+- `response.py` — prepares and sends HTTP responses  
+- Website assets (HTML, CSS, JS, images), e.g., `index.html`, `styles.css`, `js/script.js`, `images/logo.png`
 
-4. **Configure Wi-Fi Credentials**
+### 4. Configure Wi-Fi Credentials
 
-   Edit `main.py` to set your Wi-Fi SSID and password:
-   ```python
-   SSID = "YOUR_SSID"
-   PASSWORD = "YOUR_PASSWORD"
+Edit `boot.py` or `main.py` to set your Wi-Fi SSID and password:
 
---------------------------------------------------------------------------------------------------------
-## Project Structure
+```python
+SSID = "YOUR_SSID"
+PASSWORD = "YOUR_PASSWORD"
 
+5. Restart ESP32
+After uploading all files and configuring Wi-Fi, restart your ESP32 device. The server will start and display the assigned IP address in the console.
 
 /project-root
-│
-├── main.py               # Main MicroPython script running Wi-Fi & HTTP server
+├── boot.py               # Wi-Fi connection setup on device boot
+├── main.py               # Main server script: socket setup, request handling loop
+├── analyze_headers.py    # Parses HTTP requests, extracts requested path and file type
+├── response.py           # Prepares and sends HTTP responses to clients
 ├── index.html            # Default homepage served
 ├── styles.css            # Hacker style CSS for glowing text, glitch effects
 ├── hacking.html          # Additional HTML pages
 ├── painting.html
 ├── sporten.html
-├── js/
-│   └── script.js         # Optional JavaScript files
-├── images/
+├── js/                   # Optional JavaScript files
+│   └── script.js
+├── images/               # Image assets
 │   ├── logo.png
 │   └── favicon.ico
-└── assets/
-    └── [additional assets or files]
-
---------------------------------------------------------------------------------------------------------
-
-Acknowledgments
-Inspired by hacker culture aesthetics and MicroPython's ease of use for embedded web servers.
-
-Feel free to contribute or report issues!
-
+└── assets/               # Additional assets or files
